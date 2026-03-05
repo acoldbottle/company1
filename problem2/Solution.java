@@ -1,7 +1,6 @@
 package problem2;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Solution {
 
@@ -45,7 +44,39 @@ public class Solution {
     public List<String> topKProducts(String[] orders, int k) {
 
         // TODO 구현
+        Map<String, Product> map = new HashMap<>();
+        for (String order : orders) {
+            String productName = order.substring(order.indexOf(' ')+1);
+            Product product = map.computeIfAbsent(productName, p -> new Product(productName));
+            product.increaseCount();
+        }
 
-        return new ArrayList<>();
+        List<Product> products = map.values().stream().toList();
+        return products.stream()
+                .sorted(
+                        Comparator.comparing(Product::getCount).reversed()
+                                .thenComparing(Product::getName))
+                .map(Product::getName)
+                .limit(k)
+                .toList();
+    }
+    static class Product {
+        private String name;
+        private int count;
+
+        public Product(String name){
+            this.name = name;
+        }
+        private void increaseCount() {
+            count++;
+        }
+
+        private String getName() {
+            return name;
+        }
+
+        private int getCount() {
+            return count;
+        }
     }
 }

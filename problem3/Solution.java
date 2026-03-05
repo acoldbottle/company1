@@ -1,5 +1,7 @@
 package problem3;
 
+import java.util.Arrays;
+
 public class Solution {
 
     /**
@@ -39,7 +41,19 @@ public class Solution {
     public int maxConcurrentSessions(String[] sessions) {
 
         // TODO 구현
+        // 접속 종료 시간 중에 가장 큰 시간을 찾아서 배열로 만들까? .. 근데 종료시간에 범위가 안나와있어. 근데 시간이라고 한거보면 24까지겠지?
 
-        return 0;
+        int[] sessionArr = new int[25];
+        for (String session : sessions) {
+            int idx = session.charAt(' ');
+            int s = Integer.parseInt(session.substring(0, idx));
+            int e = Integer.parseInt(session.substring(idx+1));
+            for(int i = s; i <= e; i++){
+                sessionArr[i]++;
+            }
+        }
+
+        Arrays.sort(sessionArr);
+        return sessionArr[24];
     }
 }
