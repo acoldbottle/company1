@@ -41,7 +41,16 @@ public class Solution {
     public Map<String, Map<String, Integer>> aggregateActions(String[] logs) {
 
         // TODO 구현
+        Map<String, Map<String, Integer>> map = new HashMap<>();
+        for (String log : logs) {
+            String[] arr = log.split(" ");
+            String user = arr[0];
+            String action = arr[1];
 
-        return new HashMap<>();
+            Map<String, Integer> actionMap = map.computeIfAbsent(user, k -> new HashMap<>());
+            actionMap.put(action, actionMap.getOrDefault(action, 0)+1);
+        }
+
+        return map;
     }
 }
